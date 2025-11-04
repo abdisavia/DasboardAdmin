@@ -1,7 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import React from "react";
-import { Product } from "./dataInterface";
-import { CreateProductType } from "@/app/product/page";
+import { CreateProductType } from "@/components/Modal";
 
 export async function GetAllData(type?: string, data?: string, setLoading?:React.Dispatch<React.SetStateAction<boolean>>) {
         
