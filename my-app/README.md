@@ -1,36 +1,61 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Technical Test Junior FE Support Be
 
-## Getting Started
+Frontend apps untuk aplikasi Technical Test Junior FE Support Be yang dibangun dengan framework NextJS dengan beberapa library tambahan seperti zod, ant-design, firebase (authentikasi) dll.
 
-First, run the development server:
+## Persyaratan Sistem
+
+- Node.js (versi 20 atau lebih tinggi)
+- npm atau yarn
+
+## Instalasi
+
+### Install dependencies
+Gunakan salah satu perintah berikut:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Menggunakan yarn (disarankan)
+yarn install
+
+# Atau menggunakan npm
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Konfigurasi Environment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Konfigurasi Environment hanya berlaku jika menjalankan be dengan Mode Development (Dengan Firebase Authentication).
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Buat file `.env` di root direktori project dan isi dengan konfigurasi Firebase yang diperlukan:
 
-## Learn More
+```env
+WEB_FIREBASE_WEB_TYPE=""
+WEB_FIREBASE_WEB_PROJECT_ID=""
+WEB_FIREBASE_WEB_PRIVATE_KEY_ID=""
+WEB_FIREBASE_WEB_PRIVATE_KEY=""
+WEB_FIREBASE_WEB_CLIENT_EMAIL=""
+WEB_FIREBASE_WEB_CLIENT_ID=""
+WEB_FIREBASE_WEB_AUTH_URI=""
+WEB_FIREBASE_WEB_TOKEN_URI=""
+WEB_FIREBASE_WEB_AUTH_PROVIDER_X509_CERT_URL=""
+WEB_FIREBASE_WEB_CLIENT_X509_CERT_URL=""
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Menjalankan Aplikasi
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Mode Development (Tanpa Firebase Authentication)
+```bash
+# Menggunakan yarn
+yarn dev
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Atau menggunakan npm
+npm run dev
+```
 
-## Deploy on Vercel
+Server akan berjalan di `http://localhost:3000`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Penutup
+hasil dari aplikasi yang saya buat ini masih memiliki banyak bug dan banyak sekali hal - hal yang masih bisa diimprove. saya merasa sedikit puas walaupun dari segi visual maupun beberapa fungsi seperti protected page, konfirmasi modal, validasi form belum sempat saya tambahkan. 
+
+namun secara keseluruhan saya tetap senang karena sudah bisa mengimplementasikan update, read, delete, serta membuat search dengan debounce yang baru pertama kali saya buat. 
+
+demikian hasil karya saya apabila banyak kekurangan saya ucapkan terimakasih 
