@@ -37,7 +37,7 @@ export async function GetAllData(token:string ,type?: string, data?: string, set
         console.log(product_dat);
         if (product_dat.status != 200) {
             setLoading(false);
-            return;
+            return ;
         }
         return product_dat;
     } catch (e) {
