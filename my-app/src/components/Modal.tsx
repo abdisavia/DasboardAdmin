@@ -7,6 +7,7 @@ import { LoadingOutlined, PlusOutlined, ExclamationCircleFilled } from "@ant-des
 import { useState, useEffect } from "react";
 import { ModalFuncProps } from "antd";
 import { createProductData,updateProductData } from "@/lib/requestFunctions";
+import { useAuth } from "@/lib/AuthContex";
 
 interface ModalUpdateCreateProps {
     title: string,
@@ -100,6 +101,8 @@ export default function ModalUpdateCreate({
         product_image: "",
         product_category:""
     })
+    const [token, setToken] = useState("");
+    const auth = useAuth();
 
     useEffect(() => {
         if (!selectedData) return;
@@ -148,7 +151,7 @@ export default function ModalUpdateCreate({
         return `$ ${end ? `${v}.${end}` : `${v}`}`;
     } 
     
-    const {confirm} = Modal
+    const {confirm, info} = Modal
 
     const handleDropdownOnclick:MenuProps["onClick"] = (value) => {
         setDatas({
@@ -162,10 +165,12 @@ export default function ModalUpdateCreate({
             title: `Yakin ingin ${title}?`,
             icon: <ExclamationCircleFilled />,
             onOk: async () => {
+                const token = await auth.getToken();
+                if(!token) return Promise.reject("Token not found")
                 if (title === "Tambah Produk") {
-                    return await createProductData(datas)
+                    return await createProductData(token,datas)
                 } else if (title === "Update") {
-                    return await updateProductData(datas);
+                    return await updateProductData(token,datas);
                 }
             },
             onCancel: () => { }

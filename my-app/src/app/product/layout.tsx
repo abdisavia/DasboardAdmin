@@ -1,10 +1,12 @@
 "use client";
-import { Layout, Menu } from "antd";
+import { Button, Layout, Menu } from "antd";
 import React, { Suspense } from "react";
 import { Image, List } from "antd";
 import type { GetProp, MenuProps } from "antd";
-import { HomeOutlined, ProductOutlined } from "@ant-design/icons";
+import { ApiOutlined, HomeOutlined, ProductOutlined } from "@ant-design/icons";
 import Loading from "./loading";
+import { useAuth } from "@/lib/AuthContex";
+
 
 
 const { Sider, Header, Footer, Content } = Layout;
@@ -44,18 +46,6 @@ const MenuStyle = {
 
 type MenuItem = GetProp<MenuProps, "items">[number];
 
-const menuItems: MenuItem[] = [
-    {
-        key: "1",
-        label:(<a href="/">Dashboard</a>),
-        icon: <HomeOutlined />
-    },
-    {
-        key: "2",
-        label:(<a href="product/">Products</a>),
-        icon: <ProductOutlined />
-    }
-] 
 
 
 export default function LayoutProductPage({
@@ -63,6 +53,28 @@ export default function LayoutProductPage({
 }: {
     children:React.ReactNode
 }) {
+    const auth = useAuth()
+    const menuItems: MenuItem[] = [
+        {
+            key: "1",
+            label:(<a href="/">Dashboard</a>),
+            icon: <HomeOutlined />
+        },
+        {
+            key: "2",
+            label:(<a href="product/">Products</a>),
+            icon: <ProductOutlined />
+        }, {
+            key: "3",
+            label: (<a onClick={() => {
+                auth.logout()
+                window.location.href = "/login"
+            }}>Logout</a>),
+            icon: <ApiOutlined />,
+            danger:true
+        }
+    ]
+    
     return (
         <Layout style={LayoutStyle}>
                 <Sider style={SiderStyle} theme="dark">
@@ -76,9 +88,8 @@ export default function LayoutProductPage({
                     />
                 </Sider>
                 <Layout>
-
-                    <Header style={HeaderStyle}>Hello, Abdi</Header>
-                        <Content style={ContentStyle}>{children}</Content>
+                    <Header style={HeaderStyle}>Hello, {auth?.user?.email}</Header>
+                    <Content style={ContentStyle}>{children}</Content>
                 </Layout>
         </Layout>
     )

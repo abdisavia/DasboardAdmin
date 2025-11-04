@@ -8,6 +8,7 @@ import { DeleteOutlined, EditOutlined,PlusOutlined,LoadingOutlined, ExclamationC
 import { createProductData, GetAllData, updateProductData } from "@/lib/requestFunctions";
 import TableData from "@/components/Tabel";
 import ModalUpdateCreate from "@/components/Modal";
+import { useAuth } from "@/lib/AuthContex";
 
 export interface DataTable extends Product{
     key: React.Key
@@ -49,49 +50,93 @@ export default function ProductPage() {
     const [isModalUpdateOpen, setIsModalUpdateOpen] = useState(false);
     const [modalTitle, setModalTitle] = useState("");
     const [selectedRow, setSelectedRow] = useState<DataTable>();
+    const [token, setToken] = useState("");
+    
+    const auth = useAuth();
     
     
     function SaveToUseState(data: Product[]) {
-        if (!data) return;
-        let data_product: Product[] = data;
-        let data_product_data_table:DataTable[] = data_product.map<DataTable>((product, index, arr) => {
-            let data_product: DataTable = {
-                key: index,
-                ...product
-            }
-            return data_product
-        })
-        setProductData([]);
-        setProductData(data_product_data_table);
-        return;
+        try {
+            if (!data) return;
+            let data_product: Product[] = data;
+            let data_product_data_table:DataTable[] = data_product.map<DataTable>((product, index, arr) => {
+                let data_product: DataTable = {
+                    key: index,
+                    ...product
+                }
+                return data_product
+            })
+            setProductData([]);
+            setProductData(data_product_data_table);
+            return;
+        }catch(e){
+            console.log(e);
+        }
     }
     
     function saveProductListParams(data:ProductListParams) {
         let data_product_params: ProductListParams = data;
         setPagination(data_product_params);
     }
-
+    
     useEffect(() => {
-        GetAllData("","",setIsLoading)
+        if(token === ""){
+            auth.getToken().then(tkn => {
+                if (tkn) {
+                    setToken(tkn);
+                }
+            })
+        }
+        GetAllData(token,"","",setIsLoading)
             .then(res => {
                 if (res?.status === 200) {
                     SaveToUseState(res.data.data);
                     saveProductListParams(res.data.pagination)
-                    setIsLoading(false);
-                } else {
-                    alert("Something is wrong");
                 }
-        });
-    }, [])
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            let flattenSearch = `${search.product_title} ${search.product_description} ${search.product_category}`
-            setIsLoading(true);
-            GetAllData("search",flattenSearch,setIsLoading)
+                if (res?.status === 401) {
+                    window.location.href ="/login"
+                }
+                setIsLoading(false);
+            }).catch((e) => {
+                if (typeof e === "string") {
+                    const status = e.toLowerCase().includes("401")
+                    if (status) {
+                        // window.location.href="/login"
+                    }
+                    console.log(e);
+                }
+                setIsLoading(false);
+            })
+        }, [token])
+        
+        useEffect(() => {
+            const timer = setTimeout(() => {
+                if(token === ""){
+                    auth.getToken().then(tkn => {
+                        if (tkn) {
+                            setToken(tkn);
+                        }
+                    })
+                }
+                let flattenSearch = `${search.product_title} ${search.product_description} ${search.product_category}`
+                setIsLoading(true);
+                GetAllData(token,"search",flattenSearch,setIsLoading)
                 .then(res => {
                     if (res?.status === 200) {
                         SaveToUseState(res.data.data);
+                        setIsLoading(false);
+                    }
+                    if (res?.status === 401) {
+                        console.log(res.status);
+                    }
+                    setIsLoading(false);
+                }).catch((e) => {
+                    if (typeof e === "string") {
+                        const status = e.toLowerCase().includes("401")
+                        if (status) {
+                            // window.location.href="/login"
+                        }
+                        console.log(e);
                     }
                     setIsLoading(false);
                 })
@@ -162,13 +207,16 @@ export default function ProductPage() {
         handleSearch("product_category", e.key)
     }
 
-    const paginationOnChange: PaginationProps["onChange"] = (page) => {
+    const paginationOnChange: PaginationProps["onChange"] = async (page) => {
         setIsLoading(true);
         setPagination({
             ...pagination,
             page: page
         });
-        GetAllData("page", page.toString(), setIsLoading)
+
+        let cookie = await cookieStore.get("token");
+        
+        GetAllData(token,"page", page.toString(), setIsLoading)
             .then(dat => {
                 if (dat?.status === 200) {
                     SaveToUseState(dat.data.data)

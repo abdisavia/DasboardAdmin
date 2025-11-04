@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import {Suspense} from 'react'
 import Loading from './loading'
+import AuthContextProvider from '@/lib/AuthContex'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,7 +19,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <AuthContextProvider>
         <body className={inter.className}>{children}</body>
+      </AuthContextProvider>
     </html>
   )
 }

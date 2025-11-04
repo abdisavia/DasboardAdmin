@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     try {
         const urlParams = req.nextUrl.searchParams;
         
-
+        const token = req.headers.get("Authorization");
         if (!urlParams) {
             throw new Error("ID tidak tersedia diurl");
         }
@@ -20,7 +20,8 @@ export async function GET(req: NextRequest) {
 
         let result:AxiosResponse = await axios.get(`${process.env.API_URL}/${srchParams}`, {
             headers: {
-                "Content-Type":"application/json"
+                "Content-Type": "application/json",
+                Authorization:token
             }
         })
 
@@ -38,22 +39,24 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
     try {
         const dataBody = await req.json();
+        const token = req.headers.get("Authorization")
 
         if (!dataBody) {
             throw new Error("Data tidak tersedia");
         }
+
+        
         
         let result: AxiosResponse = await axios.post(`${process.env.API_URL}/product`, {
-            body: {
-                product_title: dataBody.product_title,
-                product_description: dataBody.product_description,
-                product_image: dataBody.product_image,
-                product_category: dataBody.product_category,
-                product_price: String(dataBody.product_price) 
-        }
+            product_title: dataBody.product_title,
+            product_description: dataBody.product_description,
+            product_image: dataBody.product_image,
+            product_category: dataBody.product_category,
+            product_price: String(dataBody.product_price)
         }, {
             headers: {
-                "Content-Type":"application/json"
+                "Content-Type": "application/json",
+                "Authorization": token
             }
         })
 
@@ -71,6 +74,7 @@ export async function POST(req: NextRequest) {
 export async function PUT(req: NextRequest) {
     try {
         const dataBody = await req.json();
+        const token = req.headers.get("Authorization");
 
         console.log(dataBody);
         if (!dataBody) {
@@ -86,7 +90,8 @@ export async function PUT(req: NextRequest) {
             product_price: String(dataBody.product_price),
         }, {
             headers: {
-                "Content-type":"application/json"
+                "Content-type": "application/json",
+                "Authorization": token
             }
         })
         

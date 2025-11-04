@@ -4,4 +4,4 @@ yarn.lock
 .idea/*
 database.db
 .env
-
+.env.dev
