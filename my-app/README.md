@@ -4,8 +4,9 @@ Frontend apps untuk aplikasi Technical Test Junior FE Support Be yang dibangun d
 
 ## Persyaratan Sistem
 
-- Node.js (versi 20 atau lebih tinggi)
-- npm atau yarn
+- Node.js (versi 22 atau lebih tinggi)
+- Next.js (versi 14)
+- npm (versi 11) atau yarn
 
 ## Instalasi
 
