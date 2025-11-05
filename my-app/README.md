@@ -27,16 +27,13 @@ Konfigurasi Environment hanya berlaku jika menjalankan be dengan Mode Developmen
 Buat file `.env` di root direktori project dan isi dengan konfigurasi Firebase yang diperlukan:
 
 ```env
-WEB_FIREBASE_WEB_TYPE=""
-WEB_FIREBASE_WEB_PROJECT_ID=""
-WEB_FIREBASE_WEB_PRIVATE_KEY_ID=""
-WEB_FIREBASE_WEB_PRIVATE_KEY=""
-WEB_FIREBASE_WEB_CLIENT_EMAIL=""
-WEB_FIREBASE_WEB_CLIENT_ID=""
-WEB_FIREBASE_WEB_AUTH_URI=""
-WEB_FIREBASE_WEB_TOKEN_URI=""
-WEB_FIREBASE_WEB_AUTH_PROVIDER_X509_CERT_URL=""
-WEB_FIREBASE_WEB_CLIENT_X509_CERT_URL=""
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
+NEXT_PUBLIC_FIREBASE_PROJECT_ID = 
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET = 
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID = 
+NEXT_PUBLIC_FIREBASE_APP_ID = 
+NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID =
 ```
 
 ## Menjalankan Aplikasi
@@ -58,4 +55,4 @@ hasil dari aplikasi yang saya buat ini masih memiliki banyak bug dan banyak seka
 
 namun secara keseluruhan saya tetap senang karena sudah bisa mengimplementasikan update, read, delete, serta membuat search dengan debounce yang baru pertama kali saya buat. 
 
-demikian hasil karya saya apabila banyak kekurangan saya ucapkan terimakasih 
+demikian aplikasi yang saya buat sebagai test junior Frontend developer di PT.Summit Global Teknologi apabila banyak kekurangan saya ucapkan terimakasih 
